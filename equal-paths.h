@@ -5,7 +5,7 @@
 #define EQUAL_PATHS_H
 
 #ifndef RECCHECK
-#include <cstdlib>
+// #include <cstdlib>
 #endif
 
 struct Node {

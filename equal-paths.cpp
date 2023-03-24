@@ -1,6 +1,6 @@
 #include "equal-paths.h"
-#include <iostream>
-using namespace std;
+// #include <iostream>
+// using namespace std;
 
 // You may add any prototypes of helper functions here
 int funcEqualPaths(Node* root);
@@ -13,7 +13,7 @@ bool equalPaths(Node * root)
 }
 
 int funcEqualPaths(Node* root) {
-  if (root == NULL) return 0;
+  if (root == nullptr) return 0;
 
 int leftside = root->left ? funcEqualPaths(root->left) + 1 : 0;
 int rightside = root->right ? funcEqualPaths(root->right) + 1 : 0;

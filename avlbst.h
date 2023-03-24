@@ -1,7 +1,7 @@
 #ifndef RBBST_H
 #define RBBST_H
 
-#include <iostream>
+// #include <iostream>
 #include <exception>
 #include <cstdlib>
 #include <cstdint>
@@ -163,8 +163,8 @@ if (node_ptr != NULL) {
   } // putting in an empty tree
   
 
-  AVLNode<Key, Value>* currentVariable = dynamic_cast<AVLNode<Key, Value>*>(this->root_);
-  AVLNode<Key, Value>* NowVariable = NULL;
+AVLNode<Key, Value>* currentVariable = dynamic_cast<AVLNode<Key, Value>*>(this->root_);
+AVLNode<Key, Value>* NowVariable = NULL;
   for (;;) {
 if (new_item.first < currentVariable->getKey()) {
 if (currentVariable->getLeft() == NULL) {
