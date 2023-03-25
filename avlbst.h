@@ -224,29 +224,29 @@ if(currentVariable == NULL) return;
     (currentVariable->getLeft() != NULL && currentVariable->getRight() != NULL) ? nodeSwap(currentVariable, (AVLNode<Key, Value>*)this->predecessor(currentVariable)) : void();
  // 2 kids
 
-    AVLNode<Key, Value>* kid = NULL;
-    if(currentVariable->getLeft() != NULL) kid = currentVariable->getLeft();
-    else if(currentVariable->getRight() != NULL) kid = currentVariable->getRight();
+   AVLNode<Key, Value>* kid = currentVariable ? (currentVariable->getLeft() ? currentVariable->getLeft() : currentVariable->getRight()) : NULL;
 
-    AVLNode<Key, Value>* parent = currentVariable->getParent();
-    if(parent != NULL) {
-        if(currentVariable == parent->getLeft()) {
-            parent->setLeft(kid);
-            parent->updateBalance(1);
-        }
-        else {
-            parent->setRight(kid);
-            parent->updateBalance(-1);
-        }
-    }
-    else {
-        this->root_ = kid;
-    }
-    
-    if(kid != NULL) {
-        kid->setParent(currentVariable->getParent());
-    }
-    delete currentVariable;
+
+   AVLNode<Key, Value>* parent = currentVariable->getParent();
+if (parent == NULL) {
+    this->root_ = kid;
+} else {
+    switch(currentVariable == parent->getLeft()) {
+    case true:
+        parent->setLeft(kid);
+        parent->updateBalance(1);
+        break;
+    case false:
+        parent->setRight(kid);
+        parent->updateBalance(-1);
+        break;
+}
+
+}
+if (kid != NULL) {
+    kid->setParent(currentVariable->getParent());
+}
+delete currentVariable;
 
     while(parent != NULL) {
       if(parent->getBalance() == 2) {
@@ -254,29 +254,37 @@ if(currentVariable == NULL) return;
             spinToRight(parent->getRight());
           }
           spinToLeft(parent);
-          parent = parent->getParent();
+parent = (*parent).getParent();
       }
       else if(parent->getBalance() == -2) {
           if(parent->getLeft()->getBalance() == 1) {
             spinToLeft(parent->getLeft());
           }
           spinToRight(parent);
-          parent = parent->getParent();
+parent = (*parent).getParent();
       }
       if(abs(parent->getBalance()) == 1) break;
       currentVariable = parent;
-      parent = parent->getParent();
-      if(parent != NULL) {
-          if(currentVariable == parent->getLeft()) {
-              parent->updateBalance(1);
-          }
-          else {
-              parent->updateBalance(-1);
+parent = (*parent).getParent();
+      switch (parent != NULL) {
+  case true:
+    switch (currentVariable == parent->getLeft()) {
+      case true:
+        parent->updateBalance(1);
+        break;
+      case false:
+        parent->updateBalance(-1);
+        break;
+    }
+    break;
+  case false:
+    break;
+}
           }
       }
 
-    }
-}
+    
+
 
 template<class Key, class Value>
 void AVLTree<Key, Value>::nodeSwap( AVLNode<Key,Value>* n1, AVLNode<Key,Value>* n2)
@@ -293,10 +301,10 @@ template<class Key, class Value>
 void AVLTree<Key, Value>::spinToRight( AVLNode<Key,Value>* node)
 {
     AVLNode<Key, Value>* n2 = node;
-    AVLNode<Key, Value>* n1 = n2->getLeft();
-    AVLNode<Key, Value>* g = n1->getLeft();
-    AVLNode<Key, Value>* h = n1->getRight();
-    AVLNode<Key, Value>* i = n2->getRight();
+AVLNode<Key, Value>* n1 = n2 ? n2->getLeft() : NULL;
+AVLNode<Key, Value>* g = n1 ? n1->getLeft() : NULL;
+AVLNode<Key, Value>* h = n1 ? n1->getRight() : NULL;
+AVLNode<Key, Value>* i = n2 ? n2->getRight() : NULL;
     
     AVLNode<Key, Value>* parent = n2->getParent();
 switch(parent != NULL) {
@@ -387,14 +395,19 @@ void AVLTree<Key, Value>::spinToLeft( AVLNode<Key,Value>* node)
         break;
 }
 
-    n2->setLeft(n1);
-    n1->setParent(n2);
     n1->setLeft(g);
-    if(g != NULL) g->setParent(n1);
+    n1->setParent(n2);
+    n2->setLeft(n1);
+    if (g) {
+    g->setParent(n1); }
     n1->setRight(h);
-    if(h != NULL) h->setParent(n1);
+    if (h) {
+    h->setParent(n1); }
+    if (h) {
+    h->setParent(n1); }
     n2->setRight(i);
-    if(i != NULL) i->setParent(n2);
+    if (i) {
+    i->setParent(n2); }
 
     auto formern1 = n1->getBalance();
     auto formern2 = n2->getBalance();
